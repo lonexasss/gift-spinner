@@ -6,4 +6,5 @@ __pycache__/
 *.db
 *.db-wal
 *.db-shm
-.DS_Storebot.log
+.DS_Store
+bot.log
