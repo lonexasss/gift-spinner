@@ -2,9 +2,8 @@ I18N = {
     "ru": {
         "welcome": (
             "🎰 Привет, {name}!\n\n"
-            "Это крутилка подарков. Выполняй задания (подписки на каналы) — "
-            "и крути кейсы с NFT и редкими подарками! Шанс редких — почти 0%, "
-            "но звёзды из кейса падают всегда ⭐\n\n"
+            "Выполняй задания — открывай кейсы 🎁\n"
+            "И забирай награды на свой баланс.\n\n"
             "Баланс: {balance} ⭐"
         ),
         "menu": "Главное меню",
@@ -16,7 +15,7 @@ I18N = {
         "case_common": "📦 Обычный кейс",
         "case_rare": "🔷 Редкий кейс",
         "case_legendary": "👑 Легендарный кейс",
-        "case_desc": "{icon} {name}\nШанс редкого: почти 0%\nДроп: {min}-{max} ⭐",
+        "case_desc": "{icon} {name}\nВыбирай и открывай 🎁",
         "no_tasks_balance": "Нет доступных заданий. Попробуй позже.",
         "task_start": (
             "📋 Чтобы открыть кейс — выполни 1 задание.\n\n"
@@ -54,9 +53,8 @@ I18N = {
     "en": {
         "welcome": (
             "🎰 Hi, {name}!\n\n"
-            "This is a gift spinner. Complete tasks (channel subscriptions) "
-            "to spin cases with NFT and rare gifts! Rare chance ~0%, "
-            "but stars always drop ⭐\n\n"
+            "Do tasks — open cases 🎁\n"
+            "And collect rewards to your balance.\n\n"
             "Balance: {balance} ⭐"
         ),
         "menu": "Main menu",
@@ -68,7 +66,7 @@ I18N = {
         "case_common": "📦 Common case",
         "case_rare": "🔷 Rare case",
         "case_legendary": "👑 Legendary case",
-        "case_desc": "{icon} {name}\nRare chance: ~0%\nDrop: {min}-{max} ⭐",
+        "case_desc": "{icon} {name}\nChoose and open 🎁",
         "no_tasks_balance": "No tasks available. Try later.",
         "task_start": (
             "📋 To open a case — do 1 task.\n\n"

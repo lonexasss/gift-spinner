@@ -3,67 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Gift Spinner</title>
+  <title>Gift Case</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
+
+  <div class="noise"></div>
+
   <header class="top">
-    <div class="balance" id="balance">💎 0 <span class="stars">⭐</span></div>
-    <div class="opened" id="opened">Открыто: 0</div>
+    <div class="brand">GIFT<span class="brand-dot">.</span><span class="brand-s">S</span></div>
+    <div class="stats">
+      <div class="pill pill-balance" id="pillBalance">
+        <span class="ico">💎</span><b id="balance">0</b><span class="unit">⭐</span>
+      </div>
+      <div class="pill pill-opened" id="pillOpened">0</div>
+    </div>
   </header>
 
   <main>
     <section class="hero">
-      <h1>🎁 Открой кейс и получи звёзды!</h1>
-      <p class="sub">Выполни задание в боте, открой кейс в приложении — звёзды упадут в любом случае. Редкие NFT подарки: шанс ~0% 🥲</p>
+      <div class="hero-ring"></div>
+      <div class="hero-emblem">🎁</div>
+      <h1>Gift Case</h1>
+      <p class="tagline">Открывай кейсы — забирай награды</p>
     </section>
 
     <section class="cases" id="cases">
-      <div class="case-card" data-case="common">
-        <div class="case-icon">📦</div>
-        <div class="case-name">Обычный</div>
-        <div class="case-drop">1 ⭐</div>
-        <button class="open-btn" data-case="common">Открыть</button>
+      <div class="case ct-common" data-case="common">
+        <span class="c-shine"></span>
+        <div class="c-emoji">📦</div>
+        <div class="c-name">Классик</div>
+        <button class="open-btn">Открыть</button>
       </div>
-      <div class="case-card" data-case="rare">
-        <div class="case-icon">🔷</div>
-        <div class="case-name">Редкий</div>
-        <div class="case-drop">1–2 ⭐</div>
-        <button class="open-btn" data-case="rare">Открыть</button>
+      <div class="case ct-rare" data-case="rare">
+        <span class="c-shine"></span>
+        <div class="c-emoji">🔷</div>
+        <div class="c-name">Мистика</div>
+        <button class="open-btn">Открыть</button>
       </div>
-      <div class="case-card" data-case="legend">
-        <div class="case-icon">👑</div>
-        <div class="case-name">Легендарный</div>
-        <div class="case-drop">2–3 ⭐</div>
-        <button class="open-btn" data-case="legend">Открыть</button>
+      <div class="case ct-legend" data-case="legend">
+        <span class="c-shine"></span>
+        <div class="c-emoji">👑</div>
+        <div class="c-name">Легенда</div>
+        <button class="open-btn">Открыть</button>
       </div>
     </section>
 
-    <section class="prizes">
-      <h2>Что внутри (казино-витрина)</h2>
-      <div class="prize-grid" id="prizeGrid">
-        <div class="prize rare">🎁 <span>NFT</span><small>0%</small></div>
-        <div class="prize rare">🚀 <span>NFT</span><small>0%</small></div>
-        <div class="prize rare">👾 <span>NFT</span><small>0%</small></div>
-        <div class="prize">💎 <span>Подарок</span><small>0.1%</small></div>
-        <div class="prize">🔥 <span>Подарок</span><small>0.5%</small></div>
-        <div class="prize">🐉 <span>Подарок</span><small>1%</small></div>
-        <div class="prize">⚡ <span>Подарок</span><small>3%</small></div>
-        <div class="prize star">⭐ <span>Звёзды</span><small>~96%</small></div>
+    <section class="vault">
+      <h2 class="vault-title">Витрина</h2>
+      <p class="vault-sub">Редкие находки ждут своих владельцев</p>
+      <div class="grid" id="vaultGrid">
+        <div class="gift g-rare">🎁</div>
+        <div class="gift g-rare">🚀</div>
+        <div class="gift g-rare">👾</div>
+        <div class="gift">💎</div>
+        <div class="gift">🔥</div>
+        <div class="gift">🐉</div>
+        <div class="gift">⚡</div>
+        <div class="gift">🪙</div>
       </div>
     </section>
   </main>
 
-  <div class="overlay hidden" id="overlay">
-    <div class="case-closed" id="caseClosed">🎁</div>
-    <div class="roll-track" id="rollTrack"></div>
-    <button class="reveal-btn hidden" id="revealBtn">Открыть кейс!</button>
-    <div class="result hidden" id="resultPanel">
-      <div class="result-stars" id="resultStars">+2</div>
-      <div class="result-label">⭐</div>
-      <p class="result-note">Звёзды зачислены. Проверь баланс в боте 📩</p>
-      <button class="close-btn" id="closeBtn">Закрыть</button>
+  <footer class="foot">
+    <p id="footStats">Открытых кейсов: 0</p>
+  </footer>
+
+  <div class="scene hidden" id="scene">
+    <div class="s-halo"></div>
+
+    <div class="phase phase-box" id="phaseBox">
+      <div class="case3d" id="case3d">📦</div>
+      <div class="pulse-label" id="pulseLabel">Открываем...</div>
+    </div>
+
+    <div class="phase phase-roll hidden" id="phaseRoll">
+      <div class="track" id="track"></div>
+    </div>
+
+    <div class="phase phase-win hidden" id="phaseWin">
+      <div class="orbit" id="orbit"></div>
+      <div class="win">
+        <div class="win-num">+<b id="winNum">0</b><span class="win-ico">⭐</span></div>
+        <p class="win-note">Награда на твоём балансе</p>
+        <button class="btn-glow" id="winClose">Забрать</button>
+      </div>
     </div>
   </div>
 

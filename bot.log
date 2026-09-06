@@ -1,0 +1,3 @@
+2026-09-06 21:59:04,541 INFO bot Bot started. Demo mode: ON
+2026-09-06 21:59:04,541 INFO aiogram.dispatcher Start polling
+2026-09-06 21:59:04,678 INFO aiogram.dispatcher Run polling for bot @roll_cases_bot id=8382448969 - 'Bot'

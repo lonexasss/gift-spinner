@@ -3,138 +3,138 @@
 
   const tg = window.Telegram && window.Telegram.WebApp;
 
-  // ---------- init ----------
   if (tg) {
     tg.ready();
     tg.expand();
-    tg.setHeaderColor && tg.setHeaderColor('#1c1c1e');
-    tg.setBackgroundColor && tg.setBackgroundColor('#1c1c1e');
+    if (tg.setHeaderColor) tg.setHeaderColor('#07070c');
+    if (tg.setBackgroundColor) tg.setBackgroundColor('#07070c');
   }
 
   const CASES = {
-    common: { icon: '📦', min: 1, max: 1, label: 'Обычный' },
-    rare:   { icon: '🔷', min: 1, max: 2, label: 'Редкий' },
-    legend: { icon: '👑', min: 2, max: 3, label: 'Легендарный' },
+    common: { icon: '📦', min: 1, max: 1, name: 'Классик' },
+    rare:   { icon: '🔷', min: 1, max: 2, name: 'Мистика' },
+    legend: { icon: '👑', min: 2, max: 3, name: 'Легенда' },
   };
 
-  const PRIZE_POOL = ['🎁', '🚀', '👾', '💎', '🔥', '🐉', '⚡', '⭐', '⭐', '⭐', '⭐', '⭐'];
-
+  const ITEMS = ['🎁', '🚀', '👾', '💎', '🔥', '🐉', '⚡', '🪙', '🕯️', '🗝️'];
   const state = {
     user: (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || null,
-    case: null,
     balance: Number(localStorage.getItem('gs_balance') || 0),
     opened: Number(localStorage.getItem('gs_opened') || 0),
   };
 
-  // ---------- UI refs ----------
   const $ = (id) => document.getElementById(id);
   const balanceEl = $('balance');
-  const openedEl = $('opened');
-  const overlay = $('overlay');
-  const caseClosed = $('caseClosed');
-  const rollTrack = $('rollTrack');
-  const revealBtn = $('revealBtn');
-  const resultPanel = $('resultPanel');
-  const resultStars = $('resultStars');
-  const closeBtn = $('closeBtn');
+  const pillOpened = $('pillOpened');
+  const footStats = $('footStats');
+  const scene = $('scene');
+  const phaseBox = $('phaseBox');
+  const phaseRoll = $('phaseRoll');
+  const phaseWin = $('phaseWin');
+  const case3d = $('case3d');
+  const track = $('track');
+  const winNum = $('winNum');
+  const orbit = $('orbit');
+
+  const haptic = (type) => { try { tg && tg.HapticFeedback && tg.HapticFeedback[type](); } catch (e) {} };
 
   function save() {
     localStorage.setItem('gs_balance', String(state.balance));
     localStorage.setItem('gs_opened', String(state.opened));
   }
 
-  function renderHeader() {
-    balanceEl.textContent = `💎 ${state.balance} ⭐`;
-    openedEl.textContent = `Открыто: ${state.opened}`;
+  function render() {
+    balanceEl.textContent = String(state.balance);
+    pillOpened.textContent = state.opened;
+    footStats.textContent = state.opened ? `Открытых кейсов: ${state.opened}` : 'Выполни задание в боте, чтобы открыть кейс';
   }
 
-  // ---------- open flow ----------
-  function startOpen(caseKey) {
-    state.case = CASES[caseKey];
-    caseClosed.textContent = state.case.icon;
+  function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
-    overlay.classList.remove('hidden');
-    resultPanel.classList.add('hidden');
-    revealBtn.classList.remove('hidden');
-    caseClosed.classList.remove('hidden');
-    rollTrack.classList.add('hidden');
-    rollTrack.innerHTML = '';
+  // ---------- open sequence ----------
+  function startOpen(key) {
+    const c = CASES[key];
+    if (!c) return;
 
-    revealBtn.textContent = `Открыть ${state.case.label} кейс!`;
-    revealBtn.onclick = () => animate();
+    haptic('impactOccurred', 'light');
+    scene.classList.remove('hidden');
+    phaseBox.classList.remove('hidden');
+    phaseRoll.classList.add('hidden');
+    phaseWin.classList.add('hidden');
+    const stopCase = (el) => (el.style.animation = 'none');
+    case3d.textContent = c.icon;
+    case3d.style.animation = '';
+
+    $('pulseLabel').textContent = 'Открываем...';
+
+    setTimeout(() => { case3d.classList.add('burst'); }, 640);
+    setTimeout(() => { phaseBox.classList.add('hidden'); roll(c); }, 900);
   }
 
-  function buildRollCells() {
+  function roll(c) {
+    haptic('notificationOccurred', 'success');
+    phaseRoll.classList.remove('hidden');
+    track.innerHTML = '';
     const cells = [];
-    // один ряд: 5 ячеек с разной скоростью
     for (let i = 0; i < 5; i++) {
-      const c = document.createElement('div');
-      c.className = 'cell' + (i === 3 ? ' slow' : i === 4 ? ' slower' : '');
-      c.textContent = PRIZE_POOL[Math.floor(Math.random() * PRIZE_POOL.length)];
-      cells.push(c);
+      const el = document.createElement('div');
+      el.className = 'cell' + (i === 3 ? ' slow' : i === 4 ? ' slower ' : '');
+      el.textContent = randomItem();
+      track.appendChild(el);
+      cells.push(el);
     }
-    return cells;
-  }
+    const tick = setInterval(() => {
+      cells.forEach((el) => { if (Math.random() < 0.65) el.textContent = randomItem(); });
+    }, 170);
 
-  function animate() {
-    caseClosed.classList.add('hidden');
-    revealBtn.classList.add('hidden');
-    rollTrack.innerHTML = '';
-    rollTrack.classList.remove('hidden');
-
-    const cells = buildRollCells();
-    cells.forEach((c) => rollTrack.appendChild(c));
-
-    const dec = setInterval(() => {
-      // периодически заменяем содержимое (эффект кручения)
-      for (let i = 0; i < cells.length; i++) {
-        if (Math.random() < 0.6) {
-          cells[i].textContent = PRIZE_POOL[Math.floor(Math.random() * PRIZE_POOL.length)];
-        }
-      }
-    }, 180);
-
-    const stars = rand(state.case.min, state.case.max);
     setTimeout(() => {
-      clearInterval(dec);
-      rollTrack.classList.add('hidden');
-      showResult(stars);
-    }, 2400);
+      clearInterval(tick);
+      phaseRoll.classList.add('hidden');
+      win(rand(c.min, c.max));
+    }, 2000);
   }
 
-  function showResult(stars) {
-    state.balance += stars;
-    state.opened += 1;
-    resultStars.textContent = `+${stars}`;
-    resultPanel.classList.remove('hidden');
-    caseClosed.classList.add('hidden');
-    renderHeader();
-    save();
-    // может не работать без бота, прикроем ошибки
+  function win(stars) {
+    haptic('notificationOccurred', 'success');
+    phaseWin.classList.remove('hidden');
+    orbit.style.animation = '';
+
+    const target = stars;
+    let v = 0;
+    const step = () => {
+      v += Math.max(1, Math.ceil((target - v) / 4));
+      if (v > target) v = target;
+      winNum.textContent = String(v);
+      if (v < target) { requestAnimationFrame(step); }
+      else {
+        state.balance += target;
+        state.opened += 1;
+        save();
+        render();
+        sendSpin(c, target);
+      }
+    };
+    requestAnimationFrame(step);
+  }
+
+  function randomItem() { return ITEMS[Math.floor(Math.random() * ITEMS.length)]; }
+
+  function sendSpin(c, stars) {
     try {
       if (tg && typeof tg.sendData === 'function') {
-        const data = JSON.stringify({
-          action: 'spin',
-          case: state.case && state.case.label,
-          stars: stars,
-          init: tg.initData || '',
-        });
-        tg.sendData(data);
-        return; // не закрываем сразу - Telegram сам ответит
+        tg.sendData(JSON.stringify({ action: 'spin', case: c.name, stars, init: tg.initData || '' }));
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) {}
   }
 
-  function rand(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+  $('winClose').onclick = () => { haptic('impactOccurred', 'light'); scene.classList.add('hidden'); };
 
-  closeBtn.onclick = () => overlay.classList.add('hidden');
-
-  // ---------- bind ----------
-  document.querySelectorAll('.open-btn').forEach((btn) => {
-    btn.onclick = () => startOpen(btn.dataset.case);
+  document.querySelectorAll('.case').forEach((card) => {
+    card.querySelector('.open-btn').onclick = (e) => {
+      e.stopPropagation();
+      startOpen(card.dataset.case);
+    };
   });
 
-  renderHeader();
+  render();
 })();
