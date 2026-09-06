@@ -9,7 +9,7 @@
 
 ```
 ┌────────────────────────────────┐
-│ Mini App (фронтенд)            │  /webapp — HTML/CSS/JS, GitHub Pages (бесплатно)
+│ Mini App (фронтенд)            │  /docs — HTML/CSS/JS, GitHub Pages (бесплатно)
 │ кейсы, анимация, инвентарь     │  HTTPS от GitHub, аккаунт по email
 └──────────┬─────────────────────┘
            │ WebApp.sendData → бот отвечает в чате
@@ -23,10 +23,12 @@
 
 1. Заведи аккаунт на [GitHub](https://github.com) (email, документы не нужны).
 2. Создай новый **public** репозиторий: `+ New repository` → имя например `gift-spinner` → Public → Create.
-3. Залей файлы папки `webapp/` (`index.html`, `style.css`, `app.js`): `Add file → Upload files`.
-4. `Settings → Pages → Build and deployment → Source: Deploy from a branch` → Branch `main` `/ (root)` → Save.
+3. Залей файлы папки `docs/` (`index.html`, `style.css`, `app.js`): `Add file → Upload files`.
+4. `Settings → Pages → Build and deployment → Source: Deploy from a branch` → Branch `main`, path `/docs` → Save.
 5. Через ~1 мин сайт живёт: `https://<твой_юзер>.github.io/<repo>/` — это URL Mini App.
 6. Проверь в браузере: должна открыться страница кейсов (можно играть без Telegram).
+
+> Важно: в корне репозитория должен лежать пустой файл `.nojekyll` (иначе GitHub соберёт страницу из README через Jekyll).
 
 ## Часть 2. Бот-бэкенд (локально)
 
@@ -80,7 +82,7 @@ python -m bot
 ## Структура
 
 ```
-webapp/          # Mini App (хостится на GitHub Pages)
+docs/            # Mini App (хостится на GitHub Pages)
   index.html     # витрина кейсов, инвентарь
   style.css      # тёмная тема
   app.js         # Telegram.WebApp, анимация открытия, sendData
