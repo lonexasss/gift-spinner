@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gift Spinner</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="balance" id="balance">💎 0 <span class="stars">⭐</span></div>
+    <div class="opened" id="opened">Открыто: 0</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>🎁 Открой кейс и получи звёзды!</h1>
+      <p class="sub">Выполни задание в боте, открой кейс в приложении — звёзды упадут в любом случае. Редкие NFT подарки: шанс ~0% 🥲</p>
+    </section>
+
+    <section class="cases" id="cases">
+      <div class="case-card" data-case="common">
+        <div class="case-icon">📦</div>
+        <div class="case-name">Обычный</div>
+        <div class="case-drop">1 ⭐</div>
+        <button class="open-btn" data-case="common">Открыть</button>
+      </div>
+      <div class="case-card" data-case="rare">
+        <div class="case-icon">🔷</div>
+        <div class="case-name">Редкий</div>
+        <div class="case-drop">1–2 ⭐</div>
+        <button class="open-btn" data-case="rare">Открыть</button>
+      </div>
+      <div class="case-card" data-case="legend">
+        <div class="case-icon">👑</div>
+        <div class="case-name">Легендарный</div>
+        <div class="case-drop">2–3 ⭐</div>
+        <button class="open-btn" data-case="legend">Открыть</button>
+      </div>
+    </section>
+
+    <section class="prizes">
+      <h2>Что внутри (казино-витрина)</h2>
+      <div class="prize-grid" id="prizeGrid">
+        <div class="prize rare">🎁 <span>NFT</span><small>0%</small></div>
+        <div class="prize rare">🚀 <span>NFT</span><small>0%</small></div>
+        <div class="prize rare">👾 <span>NFT</span><small>0%</small></div>
+        <div class="prize">💎 <span>Подарок</span><small>0.1%</small></div>
+        <div class="prize">🔥 <span>Подарок</span><small>0.5%</small></div>
+        <div class="prize">🐉 <span>Подарок</span><small>1%</small></div>
+        <div class="prize">⚡ <span>Подарок</span><small>3%</small></div>
+        <div class="prize star">⭐ <span>Звёзды</span><small>~96%</small></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="overlay hidden" id="overlay">
+    <div class="case-closed" id="caseClosed">🎁</div>
+    <div class="roll-track" id="rollTrack"></div>
+    <button class="reveal-btn hidden" id="revealBtn">Открыть кейс!</button>
+    <div class="result hidden" id="resultPanel">
+      <div class="result-stars" id="resultStars">+2</div>
+      <div class="result-label">⭐</div>
+      <p class="result-note">Звёзды зачислены. Проверь баланс в боте 📩</p>
+      <button class="close-btn" id="closeBtn">Закрыть</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

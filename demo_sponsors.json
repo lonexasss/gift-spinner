@@ -1,0 +1,5 @@
+[
+  {"id": "demo1", "title": "Demo Channel 1", "link": "https://t.me/demo1", "icon": "📢"},
+  {"id": "demo2", "title": "Demo Channel 2", "link": "https://t.me/demo2", "icon": "📢"},
+  {"id": "demo3", "title": "Demo Channel 3", "link": "https://t.me/demo3", "icon": "📢"}
+]
